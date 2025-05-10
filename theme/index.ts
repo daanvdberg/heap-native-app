@@ -27,4 +27,4 @@ const NAV_THEME = {
   },
 };
 
-export { NAV_THEME };
+export { COLORS, NAV_THEME };

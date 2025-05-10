@@ -1,11 +1,10 @@
 import { FlashList } from "@shopify/flash-list";
 import { cssInterop } from "nativewind";
 import * as React from "react";
-import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StyleSheet, View } from "react-native";
 
+import { Button } from "./Button";
 import { Text } from "./Text";
-import { ThemeToggle } from "./ThemeToggle";
 
 // Add CSS interop for FlashList
 cssInterop(FlashList, {
@@ -16,35 +15,82 @@ cssInterop(FlashList, {
 type ExampleItem = {
   id: string;
   title: string;
+  component: React.ReactNode;
 };
 
 const EXAMPLES: ExampleItem[] = [
-  { id: "1", title: "Basic Component with Tailwind Classes" },
-  { id: "2", title: "Responsive Design" },
-  { id: "3", title: "Dark Mode Support" },
-  { id: "4", title: "Typography Variants" },
-  { id: "5", title: "Platform-Specific Styling" },
+  {
+    id: "1",
+    title: "Basic Component with Tailwind Classes",
+    component: (
+      <View className="bg-muted/20 p-4 rounded-lg">
+        <Text>This is styled with Tailwind classes</Text>
+      </View>
+    ),
+  },
+  {
+    id: "2",
+    title: "Button Component",
+    component: (
+      <View className="flex flex-row flex-wrap gap-2">
+        <Button variant="default">Default</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="destructive">Delete</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost">Ghost</Button>
+      </View>
+    ),
+  },
+  {
+    id: "3",
+    title: "Dark Mode Support",
+    component: (
+      <View className="dark:bg-gray-800 bg-gray-100 p-4 rounded-lg">
+        <Text className="dark:text-white text-black">
+          This component changes in dark mode
+        </Text>
+      </View>
+    ),
+  },
+  {
+    id: "4",
+    title: "Typography Variants",
+    component: (
+      <View className="gap-1">
+        <Text variant="title1">Title 1</Text>
+        <Text variant="title3">Title 3</Text>
+        <Text variant="body">Body Text</Text>
+        <Text variant="caption1">Caption Text</Text>
+      </View>
+    ),
+  },
+  {
+    id: "5",
+    title: "Platform-Specific Styling",
+    component: (
+      <View className="gap-2">
+        <View className="ios:bg-blue-500 android:bg-green-500 p-3 rounded">
+          <Text className="ios:text-white android:text-white">
+            Platform-specific background
+          </Text>
+        </View>
+      </View>
+    ),
+  },
 ];
 
 export function Example() {
-  const insets = useSafeAreaInsets();
-
   return (
-    <View className="flex-1 bg-background">
-      <View className="flex-row items-center justify-between p-4 border-b border-border">
-        <Text variant="title2" className="font-bold">
-          NativeWindUI Examples
-        </Text>
-        <ThemeToggle />
-      </View>
-
+    <View style={styles.container}>
       <FlashList
         data={EXAMPLES}
-        estimatedItemSize={80}
+        estimatedItemSize={120}
+        showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className="p-4 m-2 bg-card rounded-xl border border-border">
+          <View className="p-4 mb-4 bg-card rounded-xl border border-border">
             <Text variant="heading">{item.title}</Text>
+            <View className="mt-4">{item.component}</View>
             <View className="mt-2">
               <Text variant="subhead" color="tertiary">
                 Example {item.id} of {EXAMPLES.length}
@@ -53,8 +99,13 @@ export function Example() {
           </View>
         )}
         ItemSeparatorComponent={() => <View className="h-2" />}
-        contentContainerClassName={`pb-${Math.floor(insets.bottom / 4)}`}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

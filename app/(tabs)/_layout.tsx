@@ -53,14 +53,6 @@ export default function TabLayout() {
             <IconSymbol size={28} name="sparkles" color={color} />
           ),
         }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            // Prevent default behavior
-            e.preventDefault();
-            // Navigate to the NativeWindUI example screen
-            navigation.navigate("nativewindui-example");
-          },
-        })}
       />
     </Tabs>
   );

@@ -7,14 +7,10 @@ import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
-import {
-  useColorScheme,
-  useInitialAndroidBarSync,
-} from "../lib/useColorScheme";
-import { NAV_THEME } from "../theme";
+import { useColorScheme } from "@/lib/useColorScheme";
+import { NAV_THEME } from "@/theme";
 
 export default function RootLayout() {
-  useInitialAndroidBarSync();
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
